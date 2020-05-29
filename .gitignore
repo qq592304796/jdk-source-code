@@ -1,0 +1,13 @@
+*.iml
+target
+/.idea/
+/lib/
+/build
+*.swp
+/config
+.DS_Store
+
+.classpath
+.project
+.settings
+/*.iml
