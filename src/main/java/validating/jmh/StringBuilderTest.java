@@ -9,9 +9,10 @@ import java.util.concurrent.TimeUnit;
  * date: 2016/11/4 14:36
  */
 @BenchmarkMode(Mode.Throughput)
-@Warmup(iterations = 3)
-@Measurement(iterations = 10, time = 5, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 1)
+@Measurement(iterations = 1, time = 1, timeUnit = TimeUnit.SECONDS)
 @Threads(16)
+@Fork(1)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class StringBuilderTest {
 
