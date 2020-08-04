@@ -24,15 +24,25 @@ public class ThreadPoolExecutorTest {
     @SneakyThrows
     @Test
     public void test() {
+        List<Integer> result1 = new CopyOnWriteArrayList<>();
+        List<Integer> result2 = new ArrayList<>();
         List<CompletableFuture<Integer>> results = new ArrayList<>();
-        IntStream.range(0, 10).forEach(value -> {
-            results.add(CompletableFuture.supplyAsync(() -> {
+        IntStream.range(0, 100).forEach(value -> {
+            CompletableFuture<Integer> supplyAsync = CompletableFuture.supplyAsync(() -> {
                 log.debug(String.valueOf(value));
                 return value;
-            }, EXECUTOR_SERVICE));
+            }, EXECUTOR_SERVICE);
+            supplyAsync.thenAccept(integer -> {
+                log.debug(String.valueOf(value));
+                result1.add(integer);
+                result2.add(integer);
+            });
+            results.add(supplyAsync);
         });
         List<Integer> result = results.stream().map(CompletableFuture::join).collect(Collectors.toList());
         log.debug(result.toString());
+        log.debug(result1.toString());
+        log.debug(result2.toString());
         EXECUTOR_SERVICE.awaitTermination(10000, TimeUnit.MILLISECONDS);
     }
 
